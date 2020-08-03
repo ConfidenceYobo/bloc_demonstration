@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class InviteEvent extends Equatable {
-  InviteEvent():super();
+  InviteEvent() : super();
   @override
   List<Object> get props => [];
 }
@@ -20,3 +20,5 @@ class InviteFetched extends InviteEvent {
     return 'InviteFetched { query: $query, isSearching: $isSearching }';
   }
 }
+
+class InviteReseted extends InviteEvent {}

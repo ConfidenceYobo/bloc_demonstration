@@ -40,6 +40,10 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
         // yield InviteFailure();
       }
     }
+
+    if (event is InviteReseted) {
+      yield InviteInitial();
+    }
   }
 
   Stream<InviteState> _getUsersOnInitialState(
@@ -101,7 +105,15 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
   Future<Map<String, dynamic>> _fetchUsersAndGetPages(nextPage,
       {String query}) async {
     try {
-      final usersList = [1, 2, 3, 4, 5, 6, 7]; // fake list(will be replaced by api response)
+      final usersList = [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]; // fake list(will be replaced by api response)
       final users = _users(usersList);
 
       final int currentPage = 1;

@@ -29,14 +29,19 @@ class _CreateRoomState extends State<CreateRoom>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InviteBloc, InviteState>(
-        builder: (blocContext, state) {
-          List _users = [];
-          if (state is InviteSuccess) {
-            _users = state.props[0];
-          }
-          print('show state');
-          print(state);
+    return WillPopScope(
+      onWillPop: () async {
+        _inviteBloc.add(InviteReseted());
+        return true;
+      },
+      child:
+          BlocBuilder<InviteBloc, InviteState>(builder: (blocContext, state) {
+        List _users = [];
+        if (state is InviteSuccess) {
+          _users = state.props[0];
+        }
+        print('show state');
+        print(state);
         return Scaffold(
           backgroundColor: Colors.white,
           body: GestureDetector(
@@ -60,6 +65,7 @@ class _CreateRoomState extends State<CreateRoom>
                           color: Colors.black,
                         ),
                         onPressed: () {
+                          _inviteBloc.add(InviteReseted());
                           Navigator.pop(context);
                         }),
                     title: PageTitle(
@@ -90,9 +96,7 @@ class _CreateRoomState extends State<CreateRoom>
                                       ),
                                     ),
                                   ),
-                                  onTap: () {
-                                    
-                                  },
+                                  onTap: () {},
                                 )
                               : Container(),
                           SizedBox(width: 15)
@@ -126,8 +130,8 @@ class _CreateRoomState extends State<CreateRoom>
                             itemBuilder: (BuildContext context, int index) {
                               User _userDetails = _users[index];
                               return UserInviteWidget(
-                                      userDetails: _userDetails,
-                                      onInvite: (user) => _inviteUser(user));
+                                  userDetails: _userDetails,
+                                  onInvite: (user) => _inviteUser(user));
                             },
                           )
                         : Container(),
@@ -137,7 +141,8 @@ class _CreateRoomState extends State<CreateRoom>
             ),
           ),
         );
-  });
+      }),
+    );
   }
 
   @override
